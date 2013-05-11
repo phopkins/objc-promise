@@ -182,7 +182,7 @@
     __block Promise *this = self;
     
     // retain the block until we can call with the result
-    Block_copy(resolvedBlock);
+    resolvedBlock = Block_copy(resolvedBlock);
     
     [this bindOrCallBlock:^{
         if (this.isResolved) {
@@ -200,7 +200,7 @@
     __block Promise *this = self;
     
     // retain the block until we can call with the result
-    Block_copy(rejectedBlock);
+    rejectedBlock = Block_copy(rejectedBlock);
     
     [this bindOrCallBlock:^{
         if (this.isRejected) {
@@ -218,7 +218,7 @@
     __block Promise *this = self;
     
     // retain the block until we can call with the result
-    Block_copy(anyBlock);
+    anyBlock = Block_copy(anyBlock);
     
     [this bindOrCallBlock:^{
         anyBlock();
