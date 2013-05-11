@@ -9,6 +9,8 @@
 #import "Promise.h"
 #import "Deferred.h"
 
+#import "Promise+Protected.h"
+
 @implementation Promise (Private)
 
 - (id)initWithQueue:(dispatch_queue_t)queue

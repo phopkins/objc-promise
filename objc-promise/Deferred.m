@@ -8,6 +8,8 @@
 
 #import "Deferred.h"
 
+#import "Promise+Protected.h"
+
 @implementation Deferred (Private)
 
 - (void)transitionToState:(PromiseState)state
