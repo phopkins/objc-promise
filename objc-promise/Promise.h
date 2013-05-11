@@ -12,6 +12,7 @@ typedef void (^bound_block)(void);
 
 @class Deferred;
 @class DispatchPromise;
+@class Promise;
 
 typedef void (^resolved_block)(id);
 typedef void (^rejected_block)(NSError *);
@@ -23,27 +24,12 @@ typedef enum {
     Resolved   = 2
 } PromiseState;
 
-@interface Promise : NSObject {
-    NSMutableArray *_callbackBindings;
-    dispatch_queue_t _queue;
-    
-    NSObject *_stateLock;
-    PromiseState _state;
-    
-    id _result;
-    NSError *_reason;
-}
+@protocol Promise <NSObject>
 
 @property (readonly) id result;
 @property (readonly) NSError *reason;
 @property (readonly) BOOL isResolved;
 @property (readonly) BOOL isRejected;
-
-+ (Promise *)resolved:(id)result;
-+ (Promise *)rejected:(NSError *)reason;
-
-+ (Promise *)or:(NSArray *)promises;
-+ (Promise *)and:(NSArray *)promises;
 
 - (Promise *)when:(resolved_block)resolvedBlock;
 - (Promise *)failed:(rejected_block)rejectedBlock;
@@ -55,5 +41,23 @@ typedef enum {
 - (Promise *)onMainQueue;
 
 - (Promise *)timeout:(NSTimeInterval)interval;
+@end
+
+@interface Promise : NSObject <Promise> {
+    NSMutableArray *_callbackBindings;
+    dispatch_queue_t _queue;
+    
+    NSObject *_stateLock;
+    PromiseState _state;
+    
+    id _result;
+    NSError *_reason;
+}
+
++ (Promise *)resolved:(id)result;
++ (Promise *)rejected:(NSError *)reason;
+
++ (Promise *)or:(NSArray *)promises;
++ (Promise *)and:(NSArray *)promises;
 
 @end
