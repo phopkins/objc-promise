@@ -18,9 +18,12 @@
     if (self = [super init]) {
         _callbackBindings = [[NSMutableArray alloc] init];
         _state = Incomplete;
-        
-        _queue = [queue retain];
-        
+
+        if (queue) {
+            dispatch_retain(queue);
+            _queue = queue;
+        }
+
         _stateLock = [[NSObject alloc] init];
         _result = nil;
     }
@@ -109,10 +112,12 @@
     
     [_reason release];
     _reason = nil;
-    
-    [_queue release];
-    _queue = nil;
-    
+
+    if (_queue) {
+        dispatch_release(_queue);
+        _queue = nil;
+    }
+
     [super dealloc];
 }
 
