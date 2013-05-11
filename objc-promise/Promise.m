@@ -78,7 +78,7 @@
 
 + (Promise *)resolved:(id)result
 {
-    Deferred *deferred = [[Deferred alloc] init];
+    Deferred *deferred = [[[Deferred alloc] init] autorelease];
     
     [deferred resolve:result];
     
@@ -87,7 +87,7 @@
 
 + (Promise *)rejected:(NSError *)reason
 {
-    Deferred *deferred = [[Deferred alloc] init];
+    Deferred *deferred = [[[Deferred alloc] init] autorelease];
     
     [deferred reject:reason];
     
