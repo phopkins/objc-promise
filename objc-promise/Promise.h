@@ -14,8 +14,8 @@ typedef void (^bound_block)(void);
 @class DispatchPromise;
 @class Promise;
 
-typedef void (^resolved_block)(id);
-typedef void (^rejected_block)(NSError *);
+typedef void (^resolved_block)(id result);
+typedef void (^rejected_block)(NSError *error);
 typedef void (^any_block)(void);
 
 typedef enum {
