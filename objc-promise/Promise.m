@@ -180,16 +180,11 @@
 - (Promise *)when:(resolved_block)resolvedBlock
 {
     __block Promise *this = self;
-    
-    // retain the block until we can call with the result
-    resolvedBlock = Block_copy(resolvedBlock);
-    
+
     [this bindOrCallBlock:^{
         if (this.isResolved) {
             resolvedBlock(this.result);
         }
-        
-        Block_release(resolvedBlock);
     }];
     
     return this;
@@ -199,15 +194,10 @@
 {
     __block Promise *this = self;
     
-    // retain the block until we can call with the result
-    rejectedBlock = Block_copy(rejectedBlock);
-    
     [this bindOrCallBlock:^{
         if (this.isRejected) {
             rejectedBlock(this.reason);
         }
-        
-        Block_release(rejectedBlock);
     }];
     
     return this;
@@ -217,13 +207,8 @@
 {
     __block Promise *this = self;
     
-    // retain the block until we can call with the result
-    anyBlock = Block_copy(anyBlock);
-    
     [this bindOrCallBlock:^{
         anyBlock();
-        
-        Block_release(anyBlock);
     }];
     
     return this;
